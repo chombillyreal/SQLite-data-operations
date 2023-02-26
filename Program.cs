@@ -1,27 +1,26 @@
-//Adding Data
-            
+//Adding Data  
             SQLiteConnection bag = new SQLiteConnection("Data Source=yourdatasource;");
-            SQLiteConnection veritabani = new SQLiteConnection(bag);
+            SQLiteConnection data = new SQLiteConnection(bag);
             try
             {
-                veritabani.Open();
+               data.Open();
                 string isim = textBox1.Text;
                 string soyisim = textBox2.Text;
-                string sql = "insert into kullanicilar(isim,soyisim,no) " +
+                string sql = "insert into tablename(yourvalues) " +
                 "VALUES('" + textBox1.Text + "','" + textBox2.Text + "','"+ textBox5.Text+ "')";
-                SQLiteCommand komut = new SQLiteCommand(sql, veritabani);
+                SQLiteCommand komut = new SQLiteCommand(sql, data);
                 {
-                    komut.Parameters.AddWithValue("@isim", isim);
-                    komut.Parameters.AddWithValue("@soyisim", soyisim);
-                    komut.Parameters.AddWithValue("@no", Convert.ToInt32(textBox5.Text));
+                    komut.Parameters.AddWithValue("@value", isim);
+                    komut.Parameters.AddWithValue("@value", soyisim);
+                    komut.Parameters.AddWithValue("@value", Convert.ToInt32(textBox5.Text));
                     komut.ExecuteNonQuery();
-                    MessageBox.Show("Kayıt Başarıyla Eklendi");
+                    MessageBox.Show("Succesfully registered.");
                     textBox1.Clear();
                     textBox2.Clear();
                     textBox5.Clear();
                 }
 
-                veritabani.Close();
+                data.Close();
             }
             catch (Exception bbc)
             {
@@ -34,53 +33,49 @@
             try
             {      
             SQLiteConnection bag = new SQLiteConnection("Data Source=yourdatasource");
-            SQLiteConnection veritabani = new SQLiteConnection(bag);
+            SQLiteConnection data = new SQLiteConnection(bag);
             
-             if(MessageBox.Show("Seçili kayıt silinecek emin misiniz?","UYARI",MessageBoxButtons.YesNo,MessageBoxIcon.Warning)==DialogResult.Yes)
+             if(MessageBox.Show("Are you sure you want to delete?","Warning",MessageBoxButtons.YesNo,MessageBoxIcon.Warning)==DialogResult.Yes)
                {
-                    veritabani.Open();
-                    string sil = textBox3.Text;
-                    sil = sil.Replace("'", "''");
-                    string deleteSql = "DELETE FROM kullanicilar WHERE no='" + sil + "'";
+                    data.Open();
+                    string remove = textBox3.Text;
+                    remove = sil.Replace("'", "''");
+                    string deleteSql = "DELETE FROM table name WHERE no='" + remove + "'";
                     SQLiteCommand deleteCommand = new SQLiteCommand(deleteSql, veritabani);
                     deleteCommand.ExecuteNonQuery();
-                    MessageBox.Show("Kayıt Başarıyla Silindi");
+                    MessageBox.Show("Succesfully deleted.");
                     textBox3.Clear();
-               }
-              
-             
-             veritabani.Close();
+               }          
+             data.Close();
             }
             catch(Exception bbc)
             {
-                MessageBox.Show(bbc.Message);
-
+               MessageBox.Show(bbc.Message);
             }
            
 // Update Data
-                          try
+           try
             {
                 SQLiteConnection bag = new SQLiteConnection("Data Source=yourdatasource;");
-                SQLiteConnection veritabani = new SQLiteConnection(bag);
+                SQLiteConnection data = new SQLiteConnection(bag);
                
-                if (MessageBox.Show("Kişi güncellenecek emin misiniz?", "UYARI", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (MessageBox.Show("Are you sure the contact will be updated?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
-                    veritabani.Open();
-                    string güncelle = textBox5.Text;
-                    güncelle = güncelle.Replace("'", "''");
-                    string updateSql = "UPDATE kullanicilar SET isim =@isim, soyisim=@soyisim WHERE no='" + güncelle + "'";
+                    data.Open();
+                    string update = textBox5.Text;
+                    update = güncelle.Replace("'", "''");
+                    string updateSql = "UPDATE tablename SET isim =@isim, soyisim=@soyisim WHERE no='" + update + "'";
                     SQLiteCommand updateCommand = new SQLiteCommand(updateSql, veritabani);
-                    updateCommand.Parameters.AddWithValue("@isim", textBox1.Text);
-                    updateCommand.Parameters.AddWithValue("@soyisim", textBox2.Text);
-                    updateCommand.Parameters.AddWithValue("@no", Convert.ToInt32(textBox5.Text));
+                    updateCommand.Parameters.AddWithValue("@value", textBox1.Text);
+                    updateCommand.Parameters.AddWithValue("@value", textBox2.Text);
+                    updateCommand.Parameters.AddWithValue("@value", Convert.ToInt32(textBox5.Text));
                     updateCommand.ExecuteNonQuery();
-                    veritabani.Close();
-                    MessageBox.Show("Kayıt Başarıyla Güncellendi");
+                    MessageBox.Show("Succesfully updated.");
                     textBox1.Clear();
                     textBox2.Clear();
                     textBox5.Clear();
-                }
-               
+                }     
+             data.Close();
             }
             catch (Exception bbc)
             {
@@ -92,25 +87,22 @@
             try
             {
                 SQLiteConnection bag = new SQLiteConnection("Data Source=yourdatasource;");
-                SQLiteConnection veritabani = new SQLiteConnection(bag);
-                veritabani.Open();
+                SQLiteConnection data = new SQLiteConnection(bag);
+                data.Open();
                 dataGridView1.ColumnCount = 3;
                 dataGridView1.Columns[0].Name = "Ad";
                 dataGridView1.Columns[1].Name = "Soyad";
                 dataGridView1.Columns[2].Name = "Numara";
-                SQLiteCommand showData = new SQLiteCommand("SELECT isim,soyisim,no from kullanicilar", veritabani);
+                SQLiteCommand showData = new SQLiteCommand("SELECT * from tablename",data);
                 SQLiteDataReader show = showData.ExecuteReader();
 
                 while (show.Read())
                 {
                     dataGridView1.Rows.Add(show[0], show[1], show[2]);
                 }
-                veritabani.Close();
+               data.Close();
             }
             catch (Exception a)
             {
                 MessageBox.Show(a.Message);
             }
-           
-           
-           //Developed by Chombilly.
